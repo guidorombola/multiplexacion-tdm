@@ -17,7 +17,8 @@ class Multiplexor:
             trama = []
             for j in range(len(canales_estandarizados)):
                 slot_canal = []
-                slot_canal.extend(canales_estandarizados[j][muestras_multiplexadas: muestras_multiplexadas + muestras_por_canal])
+                slot_canal.extend(
+                    canales_estandarizados[j][muestras_multiplexadas: muestras_multiplexadas + muestras_por_canal])
                 trama.extend(slot_canal)
 
             muestras_multiplexadas += muestras_por_canal
@@ -37,4 +38,3 @@ class Multiplexor:
             canal_estandarizado.extend(vacios)
             canales_estandarizados.append(canal_estandarizado)
         return canales_estandarizados
-
