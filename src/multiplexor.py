@@ -38,8 +38,3 @@ class Multiplexor:
             canales_estandarizados.append(canal_estandarizado)
         return canales_estandarizados
 
-
-if __name__ == '__main__':
-    canales = [[1, 2, 3, 4, 9, 10, 11], [5, 6, 7, 8]]
-    mul = Multiplexor(3, 1, canales)
-    print(mul.multiplexar())
