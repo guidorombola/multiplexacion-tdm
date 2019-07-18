@@ -1,11 +1,10 @@
 class Demultiplexor:
 
-    def __init__(self, cantidad_canales, fs, bits_por_muestra, bits_por_ranura, senial_multiplexada):
-        self.fs = fs
+    def __init__(self, cantidad_canales, tasa_bits_entrada, bits_por_ranura, senial_multiplexada):
         self.bits_por_ranura = bits_por_ranura
-        self.tiempo_por_canal = (1 / (bits_por_muestra * fs)) * bits_por_ranura
         self.senial_multiplexada = senial_multiplexada
         self.cantidad_canales = cantidad_canales
+        self.tasa_bits_entrada = tasa_bits_entrada
 
     def demultiplexar(self):
         canales_demultiplexados = [[] for i in range(self.cantidad_canales)]
@@ -20,3 +19,6 @@ class Demultiplexor:
                 canal_actual = 0
 
         return canales_demultiplexados
+
+    def obtener_tiempo_de_ranura(self):
+        return (self.tasa_bits_entrada / self.cantidad_canales) * self.bits_por_ranura

@@ -21,6 +21,7 @@ def main():
     canales = [[1, 2, 3, 4, 5, -8, 6, 0], [-1, -2, -4, -3, -5, -8, -6, 0], [5, 6, 7, -3]]
     fs = 4
     bits_por_ranura = 4
+    tasa_bits_canales_entrada = bits_por_muestra * fs
     cantidad_canales = len(canales)
 
     print('Canales entrantes: ', canales)
@@ -28,14 +29,14 @@ def main():
     print('Entran al demultiplexor: ', bits_canales)
     print()
 
-    mux = Multiplexor(fs, bits_por_muestra, bits_por_ranura, bits_canales)
-    print('Tiempo por canal: {} seg'.format(mux.tiempo_por_canal))
+    mux = Multiplexor(tasa_bits_canales_entrada, bits_por_ranura, bits_canales)
+    print('Tiempo por canal: {} seg'.format(mux.obtener_tiempo_de_ranura()))
     print()
     senial_multiplexada = mux.multiplexar()
 
     t = np.linspace(0, 2, fs * bits_por_muestra * 2 * cantidad_canales)
     plt.title('Señal multiplexada con duracion de trama {} seg. Entradas con fs = {} y {} bits por muestra'
-              .format(mux.tiempo_por_canal, fs, bits_por_muestra))
+              .format(mux.obtener_tiempo_de_ranura(), fs, bits_por_muestra))
     plt.stem(t, senial_multiplexada)
     plt.grid()
     plt.show()
@@ -44,7 +45,8 @@ def main():
     print('Señal multiplexada en decimal: ', conversor_binario_decimal.convertir_muestras(senial_multiplexada))
     print()
 
-    demux = Demultiplexor(cantidad_canales, fs, bits_por_muestra, bits_por_ranura, senial_multiplexada)
+    tasa_bits_entrada_demux = tasa_bits_canales_entrada * cantidad_canales
+    demux = Demultiplexor(cantidad_canales, tasa_bits_entrada_demux, bits_por_ranura, senial_multiplexada)
     senial_demultiplexada = demux.demultiplexar()
 
     print('Canales demultiplexados: ', senial_demultiplexada)

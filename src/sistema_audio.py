@@ -24,19 +24,22 @@ def escribir_pistas(canales, fs):
 
 
 def main():
+    canales, fs = leer_pistas(['../seno.wav', '../cuadrado.wav', '../sierra.wav'])
+    cantidad_canales = len(canales)
     bits_por_muestra = 16
     bits_por_ranura = 16
+    tasa_bits_canales_entrada = bits_por_muestra * fs
+
     conversor_decimal_binario = ConversorDecimalBinario(bits_por_muestra)
     conversor_binario_decimal = ConversorBinarioDecimal(bits_por_muestra)
 
-    canales, fs = leer_pistas(['../seno.wav', '../cuadrado.wav', '../sierra.wav'])
-
     bits_canales = conversor_decimal_binario.convertir_canales(canales)
 
-    mux = Multiplexor(fs, bits_por_muestra, bits_por_ranura, bits_canales)
+    mux = Multiplexor(tasa_bits_canales_entrada, bits_por_ranura, bits_canales)
     senial_multiplexada = mux.multiplexar()
 
-    demux = Demultiplexor(3, fs, bits_por_muestra, bits_por_ranura, senial_multiplexada)
+    tasa_bits_entrada_demux = tasa_bits_canales_entrada * cantidad_canales
+    demux = Demultiplexor(cantidad_canales, tasa_bits_entrada_demux, bits_por_ranura, senial_multiplexada)
     senial_demultiplexada = demux.demultiplexar()
     canales_recuperados = conversor_binario_decimal.convertir_canales(senial_demultiplexada)
 
