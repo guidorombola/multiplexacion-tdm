@@ -1,6 +1,3 @@
-from multiplexor import Multiplexor
-
-
 class Demultiplexor:
 
     def __init__(self, cantidad_canales, fs, tiempo_por_canal, senial_multiplexada):

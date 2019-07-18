@@ -28,7 +28,7 @@ class Multiplexor:
 
     def igualar_longitudes(self, muestras_por_canal):
         senial_mas_larga = max([len(canal) for canal in self.canales])
-        a = math.ceil(senial_mas_larga / muestras_por_canal)
+        a = math.floor(senial_mas_larga / muestras_por_canal)
         b = a * muestras_por_canal
         canales_estandarizados = []
         for canal in self.canales:
