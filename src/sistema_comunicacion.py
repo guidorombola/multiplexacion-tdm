@@ -26,9 +26,11 @@ def main():
     print('Canales entrantes: ', canales)
     bits_canales = conversor_decimal_binario.convertir_canales(canales)
     print('Entran al demultiplexor: ', bits_canales)
+    print()
 
     mux = Multiplexor(fs, bits_por_muestra, bits_por_ranura, bits_canales)
-    print('Tiempo por canal: ', mux.tiempo_por_canal)
+    print('Tiempo por canal: {} seg'.format(mux.tiempo_por_canal))
+    print()
     senial_multiplexada = mux.multiplexar()
 
     t = np.linspace(0, 2, fs * bits_por_muestra * 2 * cantidad_canales)
@@ -38,15 +40,16 @@ def main():
     plt.grid()
     plt.show()
 
-    print('Señal multiplexada: ', senial_multiplexada)
+    print('Señal multiplexada en binario: ', senial_multiplexada)
+    print('Señal multiplexada en decimal: ', conversor_binario_decimal.convertir_muestras(senial_multiplexada))
+    print()
 
     demux = Demultiplexor(cantidad_canales, fs, bits_por_muestra, bits_por_ranura, senial_multiplexada)
     senial_demultiplexada = demux.demultiplexar()
 
     print('Canales demultiplexados: ', senial_demultiplexada)
-
     canales_recuperados = conversor_binario_decimal.convertir_canales(senial_demultiplexada)
-    print('Canales en valores decimales: ', canales_recuperados)
+    print('Canales demultiplexados en decimal: ', canales_recuperados)
 
 
 main()
