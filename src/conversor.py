@@ -11,7 +11,13 @@ class ConversorDecimalBinario:
         return [self.convertir_muestras(canal) for canal in canales]
 
     def convertir_muestras(self, muestras):
-        array_bits_agrupados = [Bits(int=muestra, length=self.bits_por_muestra).bin for muestra in muestras]
+        # array_bits_agrupados = [Bits(int=muestra, length=self.bits_por_muestra).bin for muestra in muestras]
+        array_bits_agrupados = []
+        for muestra in muestras:
+            if muestra == -32768:
+                muestra += 1
+            bits = Bits(int=muestra, length=self.bits_por_muestra).bin
+            array_bits_agrupados.append(bits)
         array_bits = list(numpy.array([[int(bit) for bit in bit16] for bit16 in array_bits_agrupados]).flatten())
 
         return array_bits
