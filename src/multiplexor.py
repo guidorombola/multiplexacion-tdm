@@ -3,25 +3,26 @@ import math
 
 class Multiplexor:
 
-    def __init__(self, fs, tiempo_por_canal, canales):
+    def __init__(self, fs, bits_por_muestra, bits_por_ranura, canales):
         self.fs = fs
-        self.tiempo_por_canal = tiempo_por_canal
+        self.bits_por_ranura = bits_por_ranura
+        self.bits_por_muestra = bits_por_muestra
+        self.tiempo_por_canal = (1 / (fs * bits_por_muestra)) * bits_por_ranura
         self.canales = canales
 
     def multiplexar(self):
         senial_multiplexada = []
-        muestras_por_canal = self.fs * self.tiempo_por_canal
-        canales_estandarizados = self.igualar_longitudes(muestras_por_canal)
+        canales_estandarizados = self.igualar_longitudes(self.bits_por_ranura)
         muestras_multiplexadas = 0
         while (len(canales_estandarizados[0]) - muestras_multiplexadas) > 0:
             trama = []
             for j in range(len(canales_estandarizados)):
                 slot_canal = []
                 slot_canal.extend(
-                    canales_estandarizados[j][muestras_multiplexadas: muestras_multiplexadas + muestras_por_canal])
+                    canales_estandarizados[j][muestras_multiplexadas: muestras_multiplexadas + self.bits_por_ranura])
                 trama.extend(slot_canal)
 
-            muestras_multiplexadas += muestras_por_canal
+            muestras_multiplexadas += self.bits_por_ranura
             senial_multiplexada.extend(trama)
 
         return senial_multiplexada
