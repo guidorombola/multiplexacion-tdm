@@ -32,11 +32,10 @@ class ConversorBinarioDecimal:
         return [self.convertir_muestras(canal) for canal in canales]
 
     def convertir_muestras(self, muestras):
-        muestras_sin_none = list(filter(lambda x: x is not None, muestras))
-        array_string_bits = [str(bit) for bit in muestras_sin_none]
+        array_string_bits = [str(bit) for bit in muestras]
         cantidad_grupos_de_bits = len(array_string_bits) // self.bits_por_muestra
         array_de_arrays_bits = list(numpy.split(numpy.array(array_string_bits), cantidad_grupos_de_bits))
         array_bits_agrupados = ["".join(array_bits) for array_bits in array_de_arrays_bits]
-        array_muestras_convertidas = [Bits(bin=grupo_bits).int for grupo_bits in array_bits_agrupados]
+        array_muestras_convertidas = [None if grupo_bits.startswith("None") else Bits(bin=grupo_bits).int for grupo_bits in array_bits_agrupados]
 
         return array_muestras_convertidas
