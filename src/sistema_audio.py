@@ -1,10 +1,9 @@
 from multiplexor import Multiplexor
 from demultiplexor import Demultiplexor
-import matplotlib.pyplot as plt
-import numpy as np
-import scipy.io.wavfile as wav
 from conversor import ConversorDecimalBinario, ConversorBinarioDecimal
 
+import numpy as np
+import scipy.io.wavfile as wav
 
 def leer_pistas(nombres):
     canales = []
